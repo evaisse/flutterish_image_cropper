@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:flutter/services.dart';
@@ -63,6 +64,3 @@ class ImageLoader {
     return fromBytes(bytes);
   }
 }
-
-// Import for HTTP client
-import 'dart:io';
