@@ -216,6 +216,48 @@ flutter run
 
 Works on all Flutter platforms since it uses no native code!
 
+## Development
+
+### Running Tests
+
+```bash
+# Run all tests
+flutter test
+
+# Run tests with coverage
+flutter test --coverage
+
+# Run only golden tests
+flutter test test/image_cropper_golden_test.dart
+```
+
+### Golden Tests
+
+This project includes golden (snapshot) tests to ensure UI consistency. To update golden files after intentional UI changes:
+
+```bash
+flutter test --update-goldens
+```
+
+See [test/goldens/README.md](test/goldens/README.md) for more information about golden tests.
+
+### Code Quality
+
+Before submitting a PR, ensure your code passes all checks:
+
+```bash
+# Format code
+dart format .
+
+# Analyze code
+flutter analyze
+
+# Run tests
+flutter test
+```
+
+The CI workflow will automatically run these checks on all pull requests.
+
 ## License
 
 MIT License - see LICENSE file for details
