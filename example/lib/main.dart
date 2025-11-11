@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutterish_image_cropper/flutterish_image_cropper.dart';
 
 void main() {
@@ -49,7 +48,7 @@ class _CropperDemoState extends State<CropperDemo> {
   }
 
   Future<void> _loadSampleImage() async {
-    // Load a sample image from assets or create a colored image
+    // Create a sample gradient image for demonstration
     final recorder = ui.PictureRecorder();
     final canvas = Canvas(recorder);
     final paint = Paint();
@@ -105,6 +104,7 @@ class _CropperDemoState extends State<CropperDemo> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Image cropped: ${result.width}x${result.height}'),
+            duration: const Duration(seconds: 2),
           ),
         );
       }

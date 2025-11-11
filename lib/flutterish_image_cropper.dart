@@ -11,3 +11,4 @@ library flutterish_image_cropper;
 export 'src/image_cropper.dart';
 export 'src/crop_controller.dart';
 export 'src/crop_result.dart';
+export 'src/image_loader.dart';
