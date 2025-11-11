@@ -6,6 +6,17 @@ This directory contains golden images for widget tests. Golden tests help ensure
 
 Golden tests (also called snapshot tests) compare the current rendering of a widget against a reference image (the "golden" file). If the widget's appearance changes, the test will fail, alerting developers to the change.
 
+## Initial Setup
+
+The first time you set up the project, you'll need to generate the golden files:
+
+```bash
+# Generate all golden files for the first time
+flutter test --update-goldens
+```
+
+This will create the reference images in the `test/goldens/` directory. Make sure to commit these files to the repository.
+
 ## Updating Golden Files
 
 When you intentionally change the UI or the golden test fails due to expected changes, you can update the golden files:
