@@ -17,15 +17,15 @@ void main() {
 
     test('should initialize with default values', () {
       expect(controller.image, isNull);
-      expect(controller.cropRect, equals(Rect.zero));
+      expect(controller.cropRect, equals(ui.Rect.zero));
       expect(controller.rotation, equals(0.0));
       expect(controller.scale, equals(1.0));
-      expect(controller.offset, equals(Offset.zero));
+      expect(controller.offset, equals(ui.Offset.zero));
       expect(controller.aspectRatio, isNull);
     });
 
     test('should update crop rect', () {
-      final rect = const Rect.fromLTWH(0.1, 0.1, 0.8, 0.8);
+      final rect = const ui.Rect.fromLTWH(0.1, 0.1, 0.8, 0.8);
       controller.setCropRect(rect);
       expect(controller.cropRect, equals(rect));
     });
