@@ -2,6 +2,12 @@
 
 A pure Dart/Flutter image cropper library with **no native dependencies**. This package provides an interactive image cropping widget that works entirely in Dart and Flutter, making it platform-independent and easy to use.
 
+## 🌐 Live Demo
+
+**[Try the interactive demo →](https://evaisse.github.io/flutterish_image_cropper/)**
+
+Experience all features of the library in action with our live web demo!
+
 ## Features
 
 ✨ **Pure Dart/Flutter** - No platform-specific code or native dependencies  
