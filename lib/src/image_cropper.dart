@@ -1,5 +1,7 @@
 import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
+
 import 'crop_controller.dart';
 
 /// A widget that displays an interactive image cropper.
