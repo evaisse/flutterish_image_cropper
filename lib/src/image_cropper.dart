@@ -381,7 +381,7 @@ class _CropPainter extends CustomPainter {
     // Draw grid lines
     if (showGrid) {
       final gridPaint = Paint()
-        ..color = boundaryColor.withValues(alpha: 0.5)
+        ..color = boundaryColor.withAlpha(128)
         ..strokeWidth = 1.0;
 
       // Vertical lines

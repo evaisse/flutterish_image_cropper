@@ -41,7 +41,7 @@ void main() {
               child: ImageCropper(
                 controller: controller,
                 backgroundColor: Colors.blue.shade900,
-                overlayColor: Colors.purple.withValues(alpha: 0.3),
+                overlayColor: Colors.purple.withAlpha(77),
                 boundaryColor: Colors.yellow,
                 boundaryWidth: 3.0,
               ),
