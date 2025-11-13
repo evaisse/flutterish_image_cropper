@@ -1,8 +1,6 @@
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 /// Utility functions for loading images into the cropper.
@@ -44,26 +42,23 @@ class ImageLoader {
   /// // import 'package:http/http.dart' as http;
   /// // final response = await http.get(Uri.parse(url));
   /// // final image = await ImageLoader.fromBytes(response.bodyBytes);
-  /// 
+  ///
   /// // For non-web platforms only:
   /// final image = await ImageLoader.fromNetwork('https://example.com/image.jpg');
   /// controller.setImage(image);
   /// ```
   static Future<ui.Image> fromNetwork(String url) async {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'ImageLoader.fromNetwork is not supported on web. '
-        'Use a package like http or dio to fetch the image bytes, '
-        'then use ImageLoader.fromBytes(bytes).'
-      );
+      throw UnsupportedError('ImageLoader.fromNetwork is not supported on web. '
+          'Use a package like http or dio to fetch the image bytes, '
+          'then use ImageLoader.fromBytes(bytes).');
     }
-    
+
     // This code path is only for non-web platforms
     // We can't use dart:io on web, so we use dynamic imports
     throw UnimplementedError(
-      'Network loading requires dart:io which is not available. '
-      'Please use ImageLoader.fromBytes with bytes from http package.'
-    );
+        'Network loading requires dart:io which is not available. '
+        'Please use ImageLoader.fromBytes with bytes from http package.');
   }
 
   /// Load an image from a file.
@@ -77,7 +72,7 @@ class ImageLoader {
   /// final XFile file = await ImagePicker().pickImage(source: ImageSource.gallery);
   /// final bytes = await file.readAsBytes();
   /// final image = await ImageLoader.fromBytes(bytes);
-  /// 
+  ///
   /// // Or use the convenience method:
   /// final image = await ImageLoader.fromFile(file);
   /// controller.setImage(image);

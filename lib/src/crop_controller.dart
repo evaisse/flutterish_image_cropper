@@ -111,8 +111,10 @@ class CropController extends ChangeNotifier {
       // Ensure crop rect is within bounds
       final x = (_cropRect.left * imageWidth).toInt().clamp(0, imageWidth - 1);
       final y = (_cropRect.top * imageHeight).toInt().clamp(0, imageHeight - 1);
-      final width = (_cropRect.width * imageWidth).toInt().clamp(1, imageWidth - x);
-      final height = (_cropRect.height * imageHeight).toInt().clamp(1, imageHeight - y);
+      final width =
+          (_cropRect.width * imageWidth).toInt().clamp(1, imageWidth - x);
+      final height =
+          (_cropRect.height * imageHeight).toInt().clamp(1, imageHeight - y);
 
       // Crop the image
       final croppedImage = img.copyCrop(

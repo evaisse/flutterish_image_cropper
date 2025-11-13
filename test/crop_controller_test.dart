@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter_test/flutter_test.dart';
@@ -25,7 +26,7 @@ void main() {
     });
 
     test('should update crop rect', () {
-      final rect = const ui.Rect.fromLTWH(0.1, 0.1, 0.8, 0.8);
+      const rect = ui.Rect.fromLTWH(0.1, 0.1, 0.8, 0.8);
       controller.setCropRect(rect);
       expect(controller.cropRect, equals(rect));
     });
@@ -48,7 +49,7 @@ void main() {
     });
 
     test('should update offset', () {
-      final offset = const Offset(10, 20);
+      const ui.Offset offset = ui.Offset(10, 20);
       controller.setOffset(offset);
       expect(controller.offset, equals(offset));
     });

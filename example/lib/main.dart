@@ -10,7 +10,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
 }
 
 class CropperDemo extends StatefulWidget {
-  const CropperDemo({Key? key}) : super(key: key);
+  const CropperDemo({super.key});
 
   @override
   State<CropperDemo> createState() => _CropperDemoState();
@@ -194,7 +194,8 @@ class _CropperDemoState extends State<CropperDemo> {
                 const PopupMenuItem(value: 1.0, child: Text('Square (1:1)')),
                 const PopupMenuItem(value: 4 / 3, child: Text('4:3')),
                 const PopupMenuItem(value: 16 / 9, child: Text('16:9')),
-                const PopupMenuItem(value: 3 / 4, child: Text('3:4 (Portrait)')),
+                const PopupMenuItem(
+                    value: 3 / 4, child: Text('3:4 (Portrait)')),
                 const PopupMenuItem(value: 9 / 16, child: Text('9:16 (Story)')),
                 const PopupMenuItem(value: 2 / 1, child: Text('2:1 (Wide)')),
               ],

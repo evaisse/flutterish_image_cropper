@@ -31,7 +31,7 @@ class ImageCropper extends StatefulWidget {
   final double? aspectRatio;
 
   const ImageCropper({
-    Key? key,
+    super.key,
     required this.controller,
     this.backgroundColor = Colors.black,
     this.overlayColor = const Color(0x88000000),
@@ -39,7 +39,7 @@ class ImageCropper extends StatefulWidget {
     this.boundaryWidth = 2.0,
     this.showGrid = true,
     this.aspectRatio,
-  }) : super(key: key);
+  });
 
   @override
   State<ImageCropper> createState() => _ImageCropperState();
@@ -71,12 +71,13 @@ class _ImageCropperState extends State<ImageCropper> {
   }
 
   void _initializeCropRect() {
-    if (widget.controller.image != null && widget.controller.cropRect == Rect.zero) {
+    if (widget.controller.image != null &&
+        widget.controller.cropRect == Rect.zero) {
       // Initialize crop rect to 80% of the image, centered
       final aspectRatio = widget.aspectRatio ?? 1.0;
-      final width = 0.8;
+      const double width = 0.8;
       final height = aspectRatio <= 1.0 ? 0.8 : 0.8 / aspectRatio;
-      final left = (1.0 - width) / 2;
+      const double left = (1.0 - width) / 2;
       final top = (1.0 - height) / 2;
 
       widget.controller.setCropRect(
@@ -185,7 +186,8 @@ class _ImageCropperState extends State<ImageCropper> {
         if (aspectRatio != null) {
           final newWidth = (cropRect.right - normalizedX).clamp(0.1, 1.0);
           final newHeight = newWidth / aspectRatio;
-          final newTop = (cropRect.bottom - newHeight).clamp(0.0, cropRect.bottom - 0.1);
+          final newTop =
+              (cropRect.bottom - newHeight).clamp(0.0, cropRect.bottom - 0.1);
           newRect = Rect.fromLTRB(
             cropRect.right - newWidth,
             newTop,
@@ -205,7 +207,8 @@ class _ImageCropperState extends State<ImageCropper> {
         if (aspectRatio != null) {
           final newWidth = (normalizedX - cropRect.left).clamp(0.1, 1.0);
           final newHeight = newWidth / aspectRatio;
-          final newTop = (cropRect.bottom - newHeight).clamp(0.0, cropRect.bottom - 0.1);
+          final newTop =
+              (cropRect.bottom - newHeight).clamp(0.0, cropRect.bottom - 0.1);
           newRect = Rect.fromLTRB(
             cropRect.left,
             newTop,
@@ -329,7 +332,8 @@ class _CropPainter extends CustomPainter {
     canvas.translate(-size.width / 2, -size.height / 2);
 
     // Draw the image
-    final srcRect = Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble());
+    final srcRect =
+        Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble());
     final dstRect = Rect.fromLTWH(dx, dy, displayWidth, displayHeight);
     canvas.drawImageRect(image, srcRect, dstRect, Paint());
 
@@ -345,9 +349,11 @@ class _CropPainter extends CustomPainter {
 
     // Draw darkened overlay outside crop area
     final overlayPaint = Paint()..color = overlayColor;
-    canvas.drawRect(Rect.fromLTWH(0, 0, size.width, cropRectPixels.top), overlayPaint);
     canvas.drawRect(
-      Rect.fromLTWH(0, cropRectPixels.top, cropRectPixels.left, cropRectPixels.height),
+        Rect.fromLTWH(0, 0, size.width, cropRectPixels.top), overlayPaint);
+    canvas.drawRect(
+      Rect.fromLTWH(
+          0, cropRectPixels.top, cropRectPixels.left, cropRectPixels.height),
       overlayPaint,
     );
     canvas.drawRect(
@@ -360,7 +366,8 @@ class _CropPainter extends CustomPainter {
       overlayPaint,
     );
     canvas.drawRect(
-      Rect.fromLTWH(0, cropRectPixels.bottom, size.width, size.height - cropRectPixels.bottom),
+      Rect.fromLTWH(0, cropRectPixels.bottom, size.width,
+          size.height - cropRectPixels.bottom),
       overlayPaint,
     );
 
@@ -374,7 +381,7 @@ class _CropPainter extends CustomPainter {
     // Draw grid lines
     if (showGrid) {
       final gridPaint = Paint()
-        ..color = boundaryColor.withOpacity(0.5)
+        ..color = boundaryColor.withValues(alpha: 0.5)
         ..strokeWidth = 1.0;
 
       // Vertical lines
@@ -403,7 +410,7 @@ class _CropPainter extends CustomPainter {
       ..color = boundaryColor
       ..style = PaintingStyle.fill;
 
-    final cornerSize = 20.0;
+    const double cornerSize = 20.0;
     final corners = [
       cropRectPixels.topLeft,
       cropRectPixels.topRight,
