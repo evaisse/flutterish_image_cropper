@@ -180,10 +180,17 @@ Loads an image from memory bytes.
 
 **Future<ui.Image> fromNetwork(String url)**
 ```dart
+// Note: Not available on web platforms!
+// For web compatibility, use the http package:
+// import 'package:http/http.dart' as http;
+// final response = await http.get(Uri.parse(url));
+// final image = await ImageLoader.fromBytes(response.bodyBytes);
+
+// For non-web platforms only:
 final image = await ImageLoader.fromNetwork('https://example.com/image.jpg');
 controller.setImage(image);
 ```
-Loads an image from a network URL.
+Loads an image from a network URL. **Note:** This method is not supported on web platforms. For cross-platform network image loading, use a package like `http` or `dio` to fetch the image bytes, then use `fromBytes()`.
 
 **Future<ui.Image> fromFile(dynamic file)**
 ```dart
