@@ -1,8 +1,11 @@
 name: Deploy Demo to GitHub Pages
 
 on:
-  push:
-    branches: [main]
+  workflow_run:
+    workflows: ['CI']
+    branches: [main, master]
+    types:
+      - completed
   workflow_dispatch:
 
 permissions:
@@ -16,11 +19,14 @@ concurrency:
 
 jobs:
   build:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.sha }}
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -45,6 +51,7 @@ jobs:
           path: 'example/build/web'
 
   deploy:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
