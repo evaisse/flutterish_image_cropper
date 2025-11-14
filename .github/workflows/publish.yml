@@ -1,0 +1,80 @@
+name: Publish Package
+
+on:
+  workflow_run:
+    workflows: ['CI']
+    branches: [main, master]
+    types:
+      - completed
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.sha }}
+          fetch-depth: 0
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.35.5'
+          channel: 'stable'
+          cache: true
+
+      - name: Determine if publishing is required
+        id: version
+        shell: bash
+        run: |
+          set -eo pipefail
+          CURRENT_VERSION=$(grep -m1 '^version:' pubspec.yaml | awk '{print $2}')
+          PREVIOUS_VERSION=""
+          if git rev-parse HEAD^ >/dev/null 2>&1; then
+            PREVIOUS_VERSION=$(git show HEAD^:pubspec.yaml 2>/dev/null | grep -m1 '^version:' | awk '{print $2}')
+          fi
+          echo "Current version: ${CURRENT_VERSION:-unknown}"
+          echo "Previous version: ${PREVIOUS_VERSION:-none}"
+          if [[ -z "$CURRENT_VERSION" ]]; then
+            echo "Unable to determine current version from pubspec.yaml" >&2
+            exit 1
+          fi
+          if [[ "$CURRENT_VERSION" != "$PREVIOUS_VERSION" ]]; then
+            echo "Detected version change."
+            echo "should_publish=true" >> "$GITHUB_OUTPUT"
+            echo "current_version=$CURRENT_VERSION" >> "$GITHUB_OUTPUT"
+            echo "previous_version=$PREVIOUS_VERSION" >> "$GITHUB_OUTPUT"
+          else
+            echo "No version change detected; skipping publish."
+            echo "should_publish=false" >> "$GITHUB_OUTPUT"
+            echo "current_version=$CURRENT_VERSION" >> "$GITHUB_OUTPUT"
+            echo "previous_version=$PREVIOUS_VERSION" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Flutter pub get
+        if: ${{ steps.version.outputs.should_publish == 'true' }}
+        run: flutter pub get
+
+      - name: Publish package to pub.dev
+        if: ${{ steps.version.outputs.should_publish == 'true' }}
+        uses: google-github-actions/dart-pub-publish@v1
+        with:
+          packageRoot: .
+          publishFlags: '--force'
+          credentialsJson: ${{ secrets.PUB_CREDENTIALS }}
+
+      - name: Publish skipped
+        if: ${{ steps.version.outputs.should_publish != 'true' }}
+        run: |
+          echo "Version unchanged (current: ${{ steps.version.outputs.current_version }}, previous: ${{ steps.version.outputs.previous_version }})."
